@@ -195,6 +195,14 @@ button:active {
 .delete-button:hover {
     background-color: #d00000;
 }
+
+.clear-title-button, .clear-content-button, .clear-answer-button {
+    background-color: #facc15;
+}
+
+.clear-title-button:hover, .clear-content-button:hover, .clear-answer-button:hover {
+    background-color: #eab308;
+}
   
 .result {
     margin-top: 15px;
