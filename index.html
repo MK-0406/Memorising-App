@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Memory App with Tabs</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab(0)">📝 Memory Input</div>
+    <div class="tab" onclick="switchTab(1)">📋 Saved Entries</div>
+    <div class="tab" onclick="switchTab(2)">🎯 Practice</div>
+  </div>
+
+  <!-- Input Tab -->
+  <div class="tab-content active" id="inputTab">
+    <h2>Memory Input</h2>
+    <button onclick="addNewEntry()">Add New Title</button>
+    <button onclick="saveAllEntries()">Save All</button>
+    <button onclick="loadFromJson()">Load Entries from JSON</button>
+    <input type="file" id="jsonLoader" accept=".json" style="display: none;" />
+    <div id="entriesContainer"></div>
+  </div>
+
+  <!-- View Tab -->
+  <div class="tab-content" id="savedTab">
+    <h2>Saved Entries</h2>
+    <div id="savedContainer">
+      <p>No entries saved yet.</p>
+    </div>
+    <button onclick="downloadJson()">Download as JSON</button>
+    <button onclick="downloadPdf()">Download as PDF</button>
+  </div>
+
+  <!-- Practice Tab -->
+  <div class="tab-content" id="practiceTab">
+    <h2>Practice</h2>
+    <h4>Answers are checked in order. Any extra word in the middle will cause the word(s) behind considered wrong too.</h4>
+    <div id="practiceContainer">
+        <p>No entries saved yet.</p>
+    </div>
+
+    <div id="practiceContent" style="margin-top: 20px;"></div>
+  </div>
+
+  <button id="backToTopBtn" class="back-to-top" title="Go to top">↑</button>
+
+  <script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</body>
+</html>
