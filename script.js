@@ -32,12 +32,26 @@ function addNewEntry() {
     contentInput.classList.add("content-input");
 
     const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete";
+    deleteButton.textContent = "X";
     deleteButton.classList.add("delete-button");
     deleteButton.onclick = () => {
         container.remove();
         updateEntryNumbers();
     };
+
+    const clearTitleButton = document.createElement("button");
+    clearTitleButton.textContent = "Clr Title";
+    clearTitleButton.classList.add("clear-title-button");
+    clearTitleButton.onclick = () => {
+        titleInput.value = "";
+    }
+
+    const clearContentButton = document.createElement("button");
+    clearContentButton.textContent = "Clr Content";
+    clearContentButton.classList.add("clear-content-button");
+    clearContentButton.onclick = () => {
+        contentInput.value = "";
+    }
 
     const moveUpButton = document.createElement("button");
     moveUpButton.textContent = "↑";
@@ -66,6 +80,8 @@ function addNewEntry() {
     container.appendChild(contentLabel);
     container.appendChild(contentInput);
     container.appendChild(deleteButton);
+    container.appendChild(clearTitleButton);
+    container.appendChild(clearContentButton);
     container.appendChild(moveUpButton);
     container.appendChild(moveDownButton);
 
@@ -113,12 +129,26 @@ function showEntriesInInputTab() {
         contentInput.value = entry.content;
 
         const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Delete";
+        deleteButton.textContent = "X";
         deleteButton.classList.add("delete-button");
         deleteButton.onclick = () => {
         container.remove();
         updateEntryNumbers();
         };
+
+        const clearTitleButton = document.createElement("button");
+        clearTitleButton.textContent = "Clr Title";
+        clearTitleButton.classList.add("clear-title-button");
+        clearTitleButton.onclick = () => {
+            titleInput.value = "";
+        }
+
+        const clearContentButton = document.createElement("button");
+        clearContentButton.textContent = "Clr Content";
+        clearContentButton.classList.add("clear-content-button");
+        clearContentButton.onclick = () => {
+            contentInput.value = "";
+        }
 
         const moveUpButton = document.createElement("button");
         moveUpButton.textContent = "↑";
@@ -147,6 +177,8 @@ function showEntriesInInputTab() {
         container.appendChild(contentLabel);
         container.appendChild(contentInput);
         container.appendChild(deleteButton);
+        container.appendChild(clearTitleButton);
+        container.appendChild(clearContentButton);
         container.appendChild(moveUpButton);
         container.appendChild(moveDownButton);
 
@@ -161,12 +193,13 @@ function saveAllEntries() {
     const contents = document.querySelectorAll(".content-input");
 
     savedEntries.length = 0;
-
     for (let i = 0; i < titles.length; i++) {
-        savedEntries.push({
-            title: titles[i].value.trim(),
-            content: contents[i].value.trim()
-        });
+        if (titles[i].value != "" || contents[i].value != "") {
+            savedEntries.push({
+                title: titles[i].value.trim(),
+                content: contents[i].value.trim()
+            });
+        }
     }
 
     alert("Entries have been saved!");
@@ -303,6 +336,13 @@ function loadPracticeEntry() {
         checkButton.textContent = "Check";
         checkButton.onclick = () => compareText(input.value, entry.content, result);
 
+        const clearAnswerButton = document.createElement("button");
+        clearAnswerButton.textContent = "Clr Answer";
+        clearAnswerButton.classList.add("clear-answer-button");
+        clearAnswerButton.onclick = () => {
+            input.value = "";
+        }
+
         // Create the result div to show correct/wrong text
         const result = document.createElement("div");
         result.className = "result";
@@ -311,6 +351,7 @@ function loadPracticeEntry() {
         entryContainer.appendChild(title);
         entryContainer.appendChild(input);
         entryContainer.appendChild(checkButton);
+        entryContainer.appendChild(clearAnswerButton);
         entryContainer.appendChild(result);
 
         // Append the entry container to the practice area
@@ -383,17 +424,17 @@ const backToTopBtn = document.getElementById('backToTopBtn');
 
 // Show/hide the button based on scroll position
 window.addEventListener('scroll', () => {
-  if (window.pageYOffset > 300) {
-    backToTopBtn.classList.add('visible');
-  } else {
-    backToTopBtn.classList.remove('visible');
-  }
+    if (window.pageYOffset > 300) {
+        backToTopBtn.classList.add('visible');
+    } else {
+        backToTopBtn.classList.remove('visible');
+    }
 });
 
 // Smooth scroll to top when clicked
 backToTopBtn.addEventListener('click', () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
 });
