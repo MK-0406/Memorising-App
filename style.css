@@ -141,7 +141,7 @@
     border: 1px solid var(--medium-gray);
     background-color: white;
     border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
+    box-shadow: none;
     transition: var(--transition);
   }
   
