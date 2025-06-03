@@ -11,6 +11,7 @@ function switchTab(index) {
 
     if (index === 1) showSavedEntries();
     if (index === 2) loadPracticeEntry();
+    if (index === 3) loadShuffledEntry();
 }
 
 function addNewEntry() {
@@ -317,6 +318,68 @@ function loadPracticeEntry() {
 
     // Loop through each saved entry and display its title with input field, check button, and result space
     savedEntries.forEach((entry, index) => {
+
+        // Create a container for each entry's practice area
+        const entryContainer = document.createElement("div");
+        entryContainer.classList.add("entry-container");
+
+        // Create the title
+        const title = document.createElement("h3");
+        title.textContent = `Title: ${entry.title}`;
+
+        // Create the input field
+        const input = document.createElement("textarea");
+        input.rows = 3;
+        input.placeholder = "Type the content from memory...";
+
+        // Create the check button
+        const checkButton = document.createElement("button");
+        checkButton.textContent = "Check";
+        checkButton.onclick = () => compareText(input.value, entry.content, result);
+
+        const clearAnswerButton = document.createElement("button");
+        clearAnswerButton.textContent = "Clr Answer";
+        clearAnswerButton.classList.add("clear-answer-button");
+        clearAnswerButton.onclick = () => {
+            input.value = "";
+        }
+
+        // Create the result div to show correct/wrong text
+        const result = document.createElement("div");
+        result.className = "result";
+
+        // Append all elements to the entry container
+        entryContainer.appendChild(title);
+        entryContainer.appendChild(input);
+        entryContainer.appendChild(checkButton);
+        entryContainer.appendChild(clearAnswerButton);
+        entryContainer.appendChild(result);
+
+        // Append the entry container to the practice area
+        practiceArea.appendChild(entryContainer);
+    });
+}
+
+function loadShuffledEntry() {
+    const practiceContainer = document.getElementById("shuffledContainer");
+    practiceContainer.innerHTML = "";
+    const practiceArea = document.getElementById("shuffledContent");
+    practiceArea.innerHTML = "";
+
+    if (savedEntries.length === 0) {
+        practiceContainer.innerHTML = "<p>No entries saved yet.</p>";
+        return;
+    }
+
+    // Shuffle the savedEntries array using Fisher-Yates shuffle
+    const shuffledEntries = [...savedEntries]; // Create a copy
+    for (let i = shuffledEntries.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledEntries[i], shuffledEntries[j]] = [shuffledEntries[j], shuffledEntries[i]];
+    }
+
+    // Loop through each saved entry and display its title with input field, check button, and result space
+    shuffledEntries.forEach((entry, index) => {
 
         // Create a container for each entry's practice area
         const entryContainer = document.createElement("div");
