@@ -12,6 +12,7 @@
             <div class="tab active" onclick="switchTab(0)">📝 Memory Input</div>
             <div class="tab" onclick="switchTab(1)">📋 Saved Entries</div>
             <div class="tab" onclick="switchTab(2)">🎯 Practice</div>
+            <div class="tab" onclick="switchTab(3)">♻️ Shuffled</div>
         </div>
 
         <!-- Input Tab -->
@@ -43,6 +44,17 @@
             </div>
 
             <div id="practiceContent" style="margin-top: 20px;"></div>
+        </div>
+
+        <!-- Shuffled Tab -->
+        <div class="tab-content" id="shuffledTab">
+            <h2>Shuffled</h2>
+            <h4>Answers are checked in order. Any extra word in the middle will cause the word(s) behind considered wrong too.</h4>
+            <div id="shuffledContainer">
+                <p>No entries saved yet.</p>
+            </div>
+
+            <div id="shuffledContent" style="margin-top: 20px;"></div>
         </div>
 
         <button id="backToTopBtn" class="back-to-top" title="Go to top">↑</button>
