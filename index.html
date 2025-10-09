@@ -7,7 +7,15 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-
+        <div class="dropdown-tabs">
+            <div class="menu-tab" id="menu-tab" onclick="showTabs()">Menu</div>
+            <div id="TabsDropdown" class="dropdown-content">
+                <div class="tab active" onclick="switchTab(0)">📝 Memory Input</div>
+                <div class="tab" onclick="switchTab(1)">📋 Saved Entries</div>
+                <div class="tab" onclick="switchTab(2)">🎯 Practice</div>
+                <div class="tab" onclick="switchTab(3)">♻️ Shuffled</div>
+            </div>
+        </div>
         <div class="tabs">
             <div class="tab active" onclick="switchTab(0)">📝 Memory Input</div>
             <div class="tab" onclick="switchTab(1)">📋 Saved Entries</div>
@@ -28,11 +36,11 @@
         <!-- View Tab -->
         <div class="tab-content" id="savedTab">
             <h2>Saved Entries</h2>
+            <button onclick="downloadJson()">Download as JSON</button>
+            <button onclick="downloadPdf()">Download as PDF</button>
             <div id="savedContainer">
                 <p>No entries saved yet.</p>
             </div>
-            <button onclick="downloadJson()">Download as JSON</button>
-            <button onclick="downloadPdf()">Download as PDF</button>
         </div>
 
         <!-- Practice Tab -->
@@ -57,7 +65,9 @@
             <div id="shuffledContent" style="margin-top: 20px;"></div>
         </div>
 
-        <button id="backToTopBtn" class="back-to-top" title="Go to top">↑</button>
+        <button id="backToTopBtn" class="floating-btn" title="Go to top">↑</button>
+        <button id="smallAddBtn" class="floating-btn" title="Add">+</button>
+        <button id="smallSaveBtn" class="floating-btn" title="Save">S</button>
 
         <script src="script.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
