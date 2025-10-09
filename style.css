@@ -27,8 +27,7 @@ body {
     padding: 20px;
 }
   
-.tabs {
-    display: flex;
+.tabs, .dropdown-tabs {
     background-color: var(--primary-color);
     border-radius: var(--border-radius) var(--border-radius) 0 0;
     overflow: hidden;
@@ -36,10 +35,23 @@ body {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     white-space: nowrap;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+}
+
+.tabs{
+    display: flex;
+}
+
+.dropdown-tabs {
+    visibility: hidden;
 }
   
-.tab {
+.tab, .menu-tab {
     padding: 15px 25px;
+    width: 100%;
     color: white;
     cursor: pointer;
     transition: var(--transition);
@@ -52,34 +64,16 @@ body {
     text-align: center;
 }
 
-@media (max-width: 768px) {
-    .tabs {
-        flex-direction: column;
-        overflow-x: visible;
-    }
-    
-    .tab {
-        width: 100%;
-        text-align: left;
-        padding: 12px 0px;
-        border-bottom: 1px solid rgba(255,255,255,0.2);
-    }
-    
-    .tab.active {
-        border-bottom: 3px solid #fff;
-    }
-}
-
 .tabs-container {
     width: 100%;
     overflow: hidden;
 }
   
-.tab:hover {
+.tab:hover, .menu-tab:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
   
-.tab.active {
+.tab.active, .menu-tab.active {
     background-color: var(--primary-dark);
     font-weight: 600;
 }
@@ -95,17 +89,6 @@ body {
     margin-left: 0;
     width: 100%;
     box-sizing: border-box;
-}
-
-@media (max-width: 480px) {
-    .tab {
-        padding: 10px 0px;
-        font-size: 14px;
-    }
-    
-    .tab-content {
-        padding: 15px 10px;
-    }
 }
   
 .tab-content.active {
@@ -235,28 +218,12 @@ button:active {
 .mt-20 {
     margin-top: 20px;
 }
-  
-@media (max-width: 768px) {
-    .tabs {
-        flex-direction: column;
-    }
-    
-    .tab {
-        width: 100%;
-        text-align: center;
-    }
-    
-    input, textarea {
-        width: 94%;
-    }
-}
 
-.back-to-top {
+.floating-btn {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
     width: 50px;
     height: 50px;
+    right: 20px;
     border-radius: 50%;
     background-color: #4361ee;
     color: white;
@@ -272,12 +239,76 @@ button:active {
     align-items: center;
 }
   
-.back-to-top:hover {
+.floating-btn:hover {
     background-color: #3a0ca3;
     transform: translateY(-3px);
 }
   
-.back-to-top.visible {
+.floating-btn.visible {
     opacity: 1;
     visibility: visible;
+}
+
+#backToTopBtn {
+    bottom: 30px;
+}
+
+#smallSaveBtn {
+    bottom: 90px;
+}
+
+#smallAddBtn {
+    bottom: 150px;
+}
+
+#inputTab, #savedTab, #practiceTab, #shuffledTab {
+    padding-top: 80px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+@media (max-width: 768px) {
+    .tabs {
+        flex-direction: column;
+        overflow-x: visible;
+        visibility: hidden;
+    }
+    
+    .tab, .menu-tab {
+        width: 100%;
+        text-align: center;
+        padding: 12px 0px;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .tab.active, .menu-tab.active {
+        border-bottom: 3px solid #fff;
+    }
+
+    input, textarea {
+        width: 94%;
+    }
+
+    .dropdown-tabs {
+        visibility: visible;
+    }
+
+    .dropdown-content-show {
+        display: block;
+    }
+
+    .dropdown-content {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .tab, .menu-tab {
+        padding: 10px 0px;
+        font-size: 14px;
+    }
+    
+    .tab-content {
+        padding: 15px 10px;
+    }
 }
