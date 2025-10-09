@@ -8,10 +8,6 @@ function switchTab(index) {
     contents.forEach(content => content.classList.remove('active'));
     tabs[index].classList.add('active');
     contents[index].classList.add('active');
-
-    if (index === 1) showSavedEntries();
-    if (index === 2) loadPracticeEntry();
-    if (index === 3) loadShuffledEntry();
 }
 
 function addNewEntry() {
@@ -484,13 +480,19 @@ function compareText(userInput, expectedText, resultDiv) {
 
 // Get the button
 const backToTopBtn = document.getElementById('backToTopBtn');
+const smallAddBtn = document.getElementById('smallAddBtn');
+const smallSaveBtn = document.getElementById('smallSaveBtn');
 
 // Show/hide the button based on scroll position
 window.addEventListener('scroll', () => {
     if (window.pageYOffset > 300) {
         backToTopBtn.classList.add('visible');
+        smallAddBtn.classList.add('visible');
+        smallSaveBtn.classList.add('visible');
     } else {
         backToTopBtn.classList.remove('visible');
+        smallAddBtn.classList.remove('visible');
+        smallSaveBtn.classList.remove('visible');
     }
 });
 
@@ -501,3 +503,35 @@ backToTopBtn.addEventListener('click', () => {
         behavior: 'smooth'
     });
 });
+
+// Smooth scroll to top when clicked
+smallAddBtn.addEventListener('click', () => { addNewEntry(); });
+
+// Smooth scroll to top when clicked
+smallSaveBtn.addEventListener('click', () => { saveAllEntries(); });
+
+function showTabs() {
+    if (document.getElementById("TabsDropdown").classList.contains('dropdown-content')) {
+        document.getElementById("TabsDropdown").classList.remove('dropdown-content')
+        document.getElementById("TabsDropdown").classList.toggle("dropdown-content-show");
+    }
+    else if (document.getElementById("TabsDropdown").classList.contains('dropdown-content-show')) {
+        document.getElementById("TabsDropdown").classList.remove('dropdown-content-show');
+        document.getElementById("TabsDropdown").classList.toggle("dropdown-content");
+    }
+}
+  
+  // Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches('#menu-tab')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content-show");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('dropdown-content-show')) {
+          openDropdown.classList.remove('dropdown-content-show');
+          openDropdown.classList.toggle("dropdown-content");
+        }
+      }
+    }
+}
