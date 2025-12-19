@@ -21,6 +21,20 @@
             <div class="tab" onclick="switchTab(1)">📋 Saved Entries</div>
             <div class="tab" onclick="switchTab(2)">🎯 Practice</div>
             <div class="tab" onclick="switchTab(3)">♻️ Shuffled</div>
+            <div class="tab-controls">
+                <button id="darkModeToggle" title="Toggle dark mode" onclick="toggleDarkMode()">🌙</button>
+                <select id="fontSizeSelector" onchange="changeFontSize(this.value)" title="Font size">
+                    <option value="normal">A</option>
+                    <option value="large">A+</option>
+                    <option value="xlarge">A++</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="authBar">
+            <span id="userInfo">Not signed in</span>
+            <button id="loginBtn" onclick="signInWithGoogle()">Sign in with Google</button>
+            <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
         </div>
 
         <!-- Input Tab -->
@@ -28,16 +42,29 @@
             <h2>Memory Input</h2>
             <button onclick="addNewEntry()">Add New Title</button>
             <button onclick="saveAllEntries()">Save All</button>
+            <button onclick="importFromImage()">Import from Image</button>
+            <button onclick="importFromPdf()">Import from PDF</button>
             <button onclick="loadFromJson()">Load Entries from JSON</button>
             <input type="file" id="jsonLoader" accept=".json" style="display: none;" />
+            <input type="file" id="imageLoader" accept="image/*" style="display: none;" />
+            <input type="file" id="pdfLoader" accept="application/pdf" style="display: none;" />
             <div id="entriesContainer"></div>
         </div>
 
         <!-- View Tab -->
         <div class="tab-content" id="savedTab">
             <h2>Saved Entries</h2>
+            <div class="saved-toolbar">
+                <input type="text" id="searchInput" placeholder="Search by title or content..." oninput="applySearchAndFilters()" />
+                <input type="text" id="tagFilterInput" placeholder="Filter by tag (comma separated)..." oninput="applySearchAndFilters()" />
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="showPinnedOnly" onchange="applySearchAndFilters()" />
+                    Show pinned only
+                </label>
+            </div>
             <button onclick="downloadJson()">Download as JSON</button>
             <button onclick="downloadPdf()">Download as PDF</button>
+            <button onclick="resetAllData()">Reset All Data</button>
             <div id="savedContainer">
                 <p>No entries saved yet.</p>
             </div>
@@ -47,6 +74,22 @@
         <div class="tab-content" id="practiceTab">
             <h2>Practice</h2>
             <h4>Answers are checked in order. Any extra word in the middle will cause the word(s) behind considered wrong too.</h4>
+            <div class="practice-toolbar">
+                <label for="checkModeSelect">Check mode:</label>
+                <select id="checkModeSelect" onchange="updateCheckMode(this.value)">
+                    <option value="strict">Strict (current)</option>
+                    <option value="lenient">Lenient (ignore case & punctuation)</option>
+                </select>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="firstLetterHintToggle" onchange="toggleFirstLetterHints(this.checked)" />
+                    First-letter hints
+                </label>
+            </div>
+            <div id="practiceStats" class="stats-bar">
+                <span id="practiceProgressText">0 / 0 practiced</span>
+                <span id="practiceAccuracyText">Accuracy: 0%</span>
+                <span id="practiceStreakText">Streak: 0 days</span>
+            </div>
             <div id="practiceContainer">
                 <p>No entries saved yet.</p>
             </div>
@@ -58,6 +101,9 @@
         <div class="tab-content" id="shuffledTab">
             <h2>Shuffled</h2>
             <h4>Answers are checked in order. Any extra word in the middle will cause the word(s) behind considered wrong too.</h4>
+            <div id="shuffledStats" class="stats-bar">
+                <span id="shuffledProgressText">0 / 0 practiced</span>
+            </div>
             <div id="shuffledContainer">
                 <p>No entries saved yet.</p>
             </div>
@@ -69,8 +115,43 @@
         <button id="smallAddBtn" class="floating-btn" title="Add">+</button>
         <button id="smallSaveBtn" class="floating-btn" title="Save">S</button>
 
-        <script src="script.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.5/tesseract.min.js"></script>
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+            import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+            import { getFirestore, collection, doc, setDoc, getDocs } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+            const firebaseConfig = {
+                apiKey: "AIzaSyDNVqbrEu4kac52dEp4MvA1FH0wpqbnjrw",
+                authDomain: "memorise-a3e93.firebaseapp.com",
+                projectId: "memorise-a3e93",
+                storageBucket: "memorise-a3e93.firebasestorage.app",
+                messagingSenderId: "943592337180",
+                appId: "1:943592337180:web:8cec9401c80df8954e54d9",
+                measurementId: "G-9KFZQF04B5"
+            };
+
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+
+            window.firebaseApi = {
+                app,
+                auth,
+                db,
+                GoogleAuthProvider,
+                signInWithPopup,
+                signOut,
+                onAuthStateChanged,
+                collection,
+                doc,
+                setDoc,
+                getDocs
+            };
+        </script>
+        <script src="script.js"></script>
 
     </body>
 </html>
