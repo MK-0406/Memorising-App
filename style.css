@@ -7,18 +7,26 @@
     --dark-gray: #495057;
     --success-color: #4cc9f0;
     --error-color: #f72585;
-    --border-radius: 8px;
-    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --transition: all 0.3s ease;
+    --border-radius: 10px;
+    --box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+    --transition: all 0.25s ease;
 }
-
+  
 body {
-    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background-color: var(--light-gray);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: radial-gradient(circle at top left, #e0f2ff 0, #f8f9fa 45%, #f5f3ff 100%);
     margin: 0;
     padding: 0;
     line-height: 1.6;
-    color: #333;
+    color: #1f2933;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px;
+}
+
+body.dark-mode {
+    background: radial-gradient(circle at top left, #020617 0, #020617 40%, #111827 100%);
+    color: #e5e7eb;
 }
   
 .container {
@@ -28,7 +36,7 @@ body {
 }
   
 .tabs, .dropdown-tabs {
-    background-color: var(--primary-color);
+    background: linear-gradient(90deg, #4361ee, #3a0ca3);
     border-radius: var(--border-radius) var(--border-radius) 0 0;
     overflow: hidden;
     box-shadow: var(--box-shadow);
@@ -41,12 +49,64 @@ body {
     z-index: 9999;
 }
 
+#authBar {
+    max-width: 960px;
+    margin: 65px auto 8px;
+    padding: 8px 16px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    flex-wrap: wrap;
+}
+
+#authBar #userInfo {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+#authBar button {
+    margin-bottom: 0;
+    padding: 8px 16px;
+    font-size: 14px;
+    min-height: 36px;
+}
+
 .tabs{
     display: flex;
+    align-items: center;
 }
 
 .dropdown-tabs {
     visibility: hidden;
+}
+
+.tab-controls {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    padding-right: 10px;
+    gap: 8px;
+}
+
+.tab-controls button,
+.tab-controls select {
+    padding: 6px 10px;
+    font-size: 14px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.tab-controls button:hover,
+.tab-controls select:hover {
+    background-color: rgba(255, 255, 255, 0.25);
 }
   
 .tab, .menu-tab {
@@ -79,11 +139,11 @@ body {
 }
   
 .tab-content {
-    padding: 20px;
+    padding: 24px 24px 30px;
     display: none;
     background-color: white;
-    border-radius: 0 0 var(--border-radius) var(--border-radius);
-    box-shadow: none;
+    border-radius: 16px;
+    box-shadow: var(--box-shadow);
     margin-bottom: 30px;
     padding-left: 0;
     margin-left: 0;
@@ -94,9 +154,9 @@ body {
 .tab-content.active {
     display: block;
     animation: fadeIn 0.3s ease;
-    margin: 0 auto;
-    max-width: 100%;
-    padding: 20px 15px;
+    margin: 16px auto 32px;
+    max-width: 960px;
+    padding: 24px 24px 30px;
 }
   
 @keyframes fadeIn {
@@ -105,8 +165,8 @@ body {
 }
   
 .entry-container {
-    margin-bottom: 25px;
-    padding: 20px;
+    margin-bottom: 20px;
+    padding: 18px 18px 20px;
     border: 1px solid var(--medium-gray);
     background-color: white;
     border-radius: var(--border-radius);
@@ -115,8 +175,8 @@ body {
 }
   
 .entry-container:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.16);
 }
   
 label {
@@ -127,13 +187,16 @@ label {
 }
   
 input, textarea {
-    width: 97%;
+    width: 100%;
     padding: 12px;
     margin-bottom: 15px;
     border: 1px solid var(--medium-gray);
     border-radius: var(--border-radius);
-    font-size: 15px;
+    font-size: 16px;
     transition: var(--transition);
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    appearance: none;
 }
   
 input:focus, textarea:focus {
@@ -148,7 +211,7 @@ textarea {
 }
   
 button {
-    padding: 12px 20px;
+    padding: 10px 18px;
     font-size: 16px;
     background-color: var(--primary-color);
     color: white;
@@ -159,6 +222,8 @@ button {
     margin-right: 10px;
     transition: var(--transition);
     font-weight: 500;
+    min-height: 44px;
+    touch-action: manipulation;
 }
   
 button:hover {
@@ -261,13 +326,88 @@ button:active {
     bottom: 150px;
 }
 
+.saved-toolbar,
+.practice-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.saved-toolbar input[type="text"] {
+    max-width: 260px;
+}
+
+.checkbox-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.stats-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: var(--dark-gray);
+}
+
+.stats-bar span {
+    background: var(--light-gray);
+    padding: 4px 8px;
+    border-radius: 999px;
+}
+
+/* Dark mode variants */
+body.dark-mode .tab-content {
+    background-color: #020617;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+body.dark-mode .entry-container {
+    background-color: #020617;
+    border-color: rgba(148, 163, 184, 0.35);
+}
+
+body.dark-mode label {
+    color: #e5e7eb;
+}
+
+body.dark-mode input,
+body.dark-mode textarea {
+    background-color: #020617;
+    border-color: rgba(148, 163, 184, 0.45);
+    color: #e5e7eb;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+    color: #6b7280;
+}
+
+body.dark-mode .result {
+    background-color: #020617;
+    border: 1px dashed rgba(148, 163, 184, 0.35);
+}
+
+body.dark-mode .stats-bar span {
+    background: #020617;
+}
+
 #inputTab, #savedTab, #practiceTab, #shuffledTab {
-    padding-top: 80px;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-top: 10px; /* small spacing above each tab title */
+    padding-left: 16px;
+    padding-right: 16px;
 }
 
 @media (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+    
     .tabs {
         flex-direction: column;
         overflow-x: visible;
@@ -279,6 +419,7 @@ button:active {
         text-align: center;
         padding: 12px 0px;
         border-bottom: 1px solid rgba(255,255,255,0.2);
+        font-size: 15px;
     }
     
     .tab.active, .menu-tab.active {
@@ -286,11 +427,51 @@ button:active {
     }
 
     input, textarea {
-        width: 94%;
+        width: 100%;
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 12px 18px;
+        width: auto;
+        min-width: 120px;
     }
 
     .dropdown-tabs {
         visibility: visible;
+    }
+
+    .tab-controls {
+        justify-content: center;
+        padding: 8px 0 10px;
+    }
+
+    #authBar {
+        margin: 60px 8px 8px;
+        padding: 8px 12px;
+        justify-content: center;
+    }
+    
+    #authBar #userInfo {
+        max-width: 100%;
+        text-align: center;
+        margin-bottom: 4px;
+    }
+    
+    #authBar button {
+        flex: 1;
+        min-width: 140px;
+    }
+
+    .tab-content.active {
+        margin: 8px;
+        padding: 16px;
+    }
+    
+    .entry-container {
+        padding: 16px;
     }
 
     .dropdown-content-show {
@@ -303,12 +484,75 @@ button:active {
 }
 
 @media (max-width: 480px) {
+    body {
+        font-size: 16px;
+    }
+    
     .tab, .menu-tab {
-        padding: 10px 0px;
+        padding: 12px 0px;
         font-size: 14px;
     }
     
     .tab-content {
-        padding: 15px 10px;
+        padding: 16px 12px;
+        margin: 8px;
+    }
+    
+    .tab-content.active {
+        padding: 16px 12px;
+    }
+    
+    button {
+        font-size: 15px;
+        padding: 12px 16px;
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 12px;
+    }
+    
+    input, textarea {
+        font-size: 16px;
+        padding: 12px;
+    }
+    
+    #authBar {
+        margin: 55px 4px 8px;
+        padding: 8px;
+        flex-direction: column;
+    }
+    
+    #authBar button {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+    
+    .saved-toolbar,
+    .practice-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .saved-toolbar input[type="text"] {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    .floating-btn {
+        width: 48px;
+        height: 48px;
+        right: 16px;
+        font-size: 18px;
+    }
+    
+    #backToTopBtn {
+        bottom: 20px;
+    }
+
+    #smallSaveBtn {
+        bottom: 76px;
+    }
+
+    #smallAddBtn {
+        bottom: 132px;
     }
 }
