@@ -436,7 +436,6 @@ body.dark-mode .stats-bar span {
         font-size: 16px;
         padding: 12px 18px;
         width: auto;
-        min-width: 120px;
     }
 
     .dropdown-tabs {
