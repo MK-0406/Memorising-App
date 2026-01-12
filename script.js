@@ -715,16 +715,10 @@ function switchTab(index) {
         tabs[index].classList.add('active');
     }
 
-    // Activate Mobile Tab (7-13) - assuming sequential order in DOM
-    // There are 7 tabs per set. Mobile set starts at index 7.
-    if (tabs[index + 7]) {
-        tabs[index + 7].classList.add('active');
-    }
-
-    // Special handling for specific tabs
-    // Analytics
-    if (index === 2 && typeof initAnalytics === 'function') {
-        initAnalytics();
+    // Activate Mobile Tab (6-13) - assuming sequential order in DOM
+    // There are 6 tabs per set. Mobile set starts at index 7.
+    if (tabs[index + 6]) {
+        tabs[index + 6].classList.add('active');
     }
 
     // Review (SRS)
@@ -733,7 +727,7 @@ function switchTab(index) {
     }
 
     // Notes
-    if (index === 6) {
+    if (index === 5) {
         loadNotesUI();
     }
 

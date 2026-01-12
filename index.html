@@ -21,11 +21,10 @@
         <div id="TabsDropdown" class="dropdown-content">
             <div class="tab active" onclick="switchTab(0)">📝 Memory Input</div>
             <div class="tab" onclick="switchTab(1)">📋 Saved Entries</div>
-            <div class="tab" onclick="switchTab(2)">📊 Analytics</div>
-            <div class="tab" onclick="switchTab(3)">🎯 Practice</div>
+            <div class="tab" onclick="switchTab(2)">🎯 Practice</div>
+            <div class="tab" onclick="switchTab(3)">♻️ Shuffled</div>
             <div class="tab" onclick="switchTab(4)">🧠 Review (SRS)</div>
-            <div class="tab" onclick="switchTab(5)">♻️ Shuffled</div>
-            <div class="tab" onclick="switchTab(6)">📓 Subject Notes</div>
+            <div class="tab" onclick="switchTab(5)">📓 Subject Notes</div>
             <div class="tab-controls"
                 style="justify-content: center; border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: 8px;">
                 <button id="darkModeToggleMobile" title="Toggle dark mode" onclick="toggleDarkMode()">🌙</button>
@@ -40,11 +39,10 @@
     <div class="tabs">
         <div class="tab active" onclick="switchTab(0)">📝 Memory Input</div>
         <div class="tab" onclick="switchTab(1)">📋 Saved Entries</div>
-        <div class="tab" onclick="switchTab(2)">📊 Analytics</div>
-        <div class="tab" onclick="switchTab(3)">🎯 Practice</div>
+        <div class="tab" onclick="switchTab(2)">🎯 Practice</div>
+        <div class="tab" onclick="switchTab(3)">♻️ Shuffled</div>
         <div class="tab" onclick="switchTab(4)">🧠 Review (SRS)</div>
-        <div class="tab" onclick="switchTab(5)">♻️ Shuffled</div>
-        <div class="tab" onclick="switchTab(6)">📓 Subject Notes</div>
+        <div class="tab" onclick="switchTab(5)">📓 Subject Notes</div>
         <div class="tab-controls">
             <button id="darkModeToggle" title="Toggle dark mode" onclick="toggleDarkMode()">🌙</button>
             <select id="fontSizeSelector" onchange="changeFontSize(this.value)" title="Font size">
@@ -155,74 +153,6 @@
         </div>
     </div>
 
-    <!-- Analytics Tab -->
-    <div class="tab-content" id="analyticsTab">
-        <h2>📊 Analytics & Progress</h2>
-        <p>Track your learning journey with detailed statistics and visualizations.</p>
-
-        <!-- Quick Stats Cards -->
-        <div class="analytics-quick-stats">
-            <div class="stat-card">
-                <div class="stat-icon">📚</div>
-                <div class="stat-value" id="totalEntriesCount">0</div>
-                <div class="stat-label">Total Entries</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">✅</div>
-                <div class="stat-value" id="totalPracticed">0</div>
-                <div class="stat-label">Times Practiced</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">🎯</div>
-                <div class="stat-value" id="avgAccuracy">0%</div>
-                <div class="stat-label">Avg Accuracy</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">🔥</div>
-                <div class="stat-value" id="currentStreak">0</div>
-                <div class="stat-label">Day Streak</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">⏱️</div>
-                <div class="stat-value" id="totalStudyTime">0m</div>
-                <div class="stat-label">Study Time</div>
-            </div>
-        </div>
-
-        <!-- Charts Section -->
-        <div class="analytics-charts">
-            <!-- Progress Over Time -->
-            <div class="chart-container">
-                <h3>📈 Progress Over Time</h3>
-                <canvas id="progressChart"></canvas>
-            </div>
-
-            <!-- Accuracy by Entry -->
-            <div class="chart-container">
-                <h3>🎯 Accuracy by Entry</h3>
-                <canvas id="accuracyChart"></canvas>
-            </div>
-        </div>
-
-        <!-- Study Heatmap Calendar -->
-        <div class="heatmap-section">
-            <h3>🗓️ Study Heatmap (Last 30 Days)</h3>
-            <div id="studyHeatmap" class="heatmap-grid"></div>
-        </div>
-
-        <!-- Weak Spots -->
-        <div class="weak-spots-section">
-            <h3>⚠️ Entries Needing Attention</h3>
-            <div id="weakSpotsList"></div>
-        </div>
-
-        <!-- Per-Folder Stats -->
-        <div class="folder-stats-section">
-            <h3>📁 Performance by Folder</h3>
-            <div id="folderStatsList"></div>
-        </div>
-    </div>
-
     <!-- Practice Tab -->
     <div class="tab-content" id="practiceTab">
         <h2>Practice</h2>
@@ -273,6 +203,21 @@
         <div id="practiceContent" style="margin-top: 20px;"></div>
     </div>
 
+    <!-- Shuffled Tab -->
+    <div class="tab-content" id="shuffledTab">
+        <h2>Shuffled</h2>
+        <h4>Answers are checked in order. Any extra word in the middle will cause the word(s) behind considered wrong
+            too.</h4>
+        <div id="shuffledStats" class="stats-bar">
+            <span id="shuffledProgressText">0 / 0 practiced</span>
+        </div>
+        <div id="shuffledContainer">
+            <p>No entries saved yet.</p>
+        </div>
+
+        <div id="shuffledContent" style="margin-top: 20px;"></div>
+    </div>
+
     <!-- Review (SRS) Tab -->
     <div class="tab-content" id="reviewTab">
         <h2>🧠 Spaced Repetition Review</h2>
@@ -315,21 +260,6 @@
         </div>
 
         <div id="reviewContent" style="margin-top: 20px;"></div>
-    </div>
-
-    <!-- Shuffled Tab -->
-    <div class="tab-content" id="shuffledTab">
-        <h2>Shuffled</h2>
-        <h4>Answers are checked in order. Any extra word in the middle will cause the word(s) behind considered wrong
-            too.</h4>
-        <div id="shuffledStats" class="stats-bar">
-            <span id="shuffledProgressText">0 / 0 practiced</span>
-        </div>
-        <div id="shuffledContainer">
-            <p>No entries saved yet.</p>
-        </div>
-
-        <div id="shuffledContent" style="margin-top: 20px;"></div>
     </div>
 
     <!-- Subject Notes Tab -->
