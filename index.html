@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memory App with Tabs</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="analytics.css" />
+    <link rel="stylesheet" href="smart-features.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <div class="dropdown-tabs">
+        <div class="menu-tab" id="menu-tab" onclick="showTabs()">Menu</div>
+        <div id="TabsDropdown" class="dropdown-content">
+            <div class="tab active" onclick="switchTab(0)">📝 Memory Input</div>
+            <div class="tab" onclick="switchTab(1)">📋 Saved Entries</div>
+            <div class="tab" onclick="switchTab(2)">📊 Analytics</div>
+            <div class="tab" onclick="switchTab(3)">🎯 Practice</div>
+            <div class="tab" onclick="switchTab(4)">🧠 Review (SRS)</div>
+            <div class="tab" onclick="switchTab(5)">♻️ Shuffled</div>
+            <div class="tab" onclick="switchTab(6)">📓 Subject Notes</div>
+            <div class="tab-controls"
+                style="justify-content: center; border-top: 1px solid var(--border-color); padding-top: 10px; margin-top: 8px;">
+                <button id="darkModeToggleMobile" title="Toggle dark mode" onclick="toggleDarkMode()">🌙</button>
+                <select id="fontSizeSelectorMobile" onchange="changeFontSize(this.value)" title="Font size">
+                    <option value="normal">A</option>
+                    <option value="large">A+</option>
+                    <option value="xlarge">A++</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab(0)">📝 Memory Input</div>
+        <div class="tab" onclick="switchTab(1)">📋 Saved Entries</div>
+        <div class="tab" onclick="switchTab(2)">📊 Analytics</div>
+        <div class="tab" onclick="switchTab(3)">🎯 Practice</div>
+        <div class="tab" onclick="switchTab(4)">🧠 Review (SRS)</div>
+        <div class="tab" onclick="switchTab(5)">♻️ Shuffled</div>
+        <div class="tab" onclick="switchTab(6)">📓 Subject Notes</div>
+        <div class="tab-controls">
+            <button id="darkModeToggle" title="Toggle dark mode" onclick="toggleDarkMode()">🌙</button>
+            <select id="fontSizeSelector" onchange="changeFontSize(this.value)" title="Font size">
+                <option value="normal">A</option>
+                <option value="large">A+</option>
+                <option value="xlarge">A++</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="authBar">
+        <span id="userInfo">Not signed in</span>
+        <button id="loginBtn" onclick="signInWithGoogle()">Sign in with Google</button>
+        <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
+    </div>
+
+    <!-- Input Tab -->
+    <div class="tab-content active" id="inputTab">
+        <h2>Memory Input</h2>
+        <div class="folder-selector-container">
+            <label for="folderSelect">Current Subject/Folder:</label>
+            <div class="folder-controls">
+                <select id="folderSelect" onchange="switchFolder(this.value)">
+                    <option value="default">Default</option>
+                </select>
+                <button onclick="createNewFolder()" class="icon-btn" title="New Subject">
+                    <i class="ph ph-folder-plus"></i>
+                </button>
+                <button onclick="renameCurrentFolder()" class="icon-btn" title="Rename Subject">
+                    <i class="ph ph-pencil"></i>
+                </button>
+                <button onclick="deleteCurrentFolder()" class="icon-btn delete-button" title="Delete Subject">
+                    <i class="ph ph-trash"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <button onclick="addNewEntry()"><i class="ph ph-plus"></i> Add Entry</button>
+            <button onclick="saveAllEntries()"><i class="ph ph-floppy-disk"></i> Save All</button>
+            <div class="divider"></div>
+
+            <!-- Templates Dropdown -->
+            <select id="templateSelect" onchange="applyTemplate(this.value); this.value='';" class="secondary-btn"
+                title="Use Template">
+                <option value="">📋 Templates</option>
+                <option value="vocabulary">Vocabulary Word</option>
+                <option value="formula">Math Formula</option>
+                <option value="concept">Concept/Theory</option>
+                <option value="date">Historical Date</option>
+                <option value="qa">Q&A</option>
+            </select>
+
+            <button onclick="showDuplicateChecker()" class="secondary-btn" title="Find Duplicates">
+                <i class="ph ph-copy"></i> Find Duplicates
+            </button>
+
+            <div class="divider"></div>
+            <button onclick="importFromImage()" class="secondary-btn" title="Import from Image"><i
+                    class="ph ph-image"></i> Image</button>
+            <button onclick="importFromPdf()" class="secondary-btn" title="Import from PDF"><i
+                    class="ph ph-file-pdf"></i> PDF</button>
+            <button onclick="loadFromJson()" class="secondary-btn" title="Import from JSON"><i class="ph ph-upload"></i>
+                JSON</button>
+        </div>
+
+        <!-- Bulk Operations Toolbar (hidden by default) -->
+        <div id="bulkActions" class="bulk-actions-toolbar" style="display: none;">
+            <div class="bulk-info">
+                <i class="ph ph-check-square"></i>
+                <span id="selectedCount">0</span> selected
+            </div>
+            <button onclick="bulkAddTag()" class="secondary-btn"><i class="ph ph-tag"></i> Add Tag</button>
+            <button onclick="bulkExport()" class="secondary-btn"><i class="ph ph-download"></i> Export</button>
+            <button onclick="bulkDelete()" class="danger-btn"><i class="ph ph-trash"></i> Delete</button>
+            <button onclick="deselectAllEntries()" class="secondary-btn"><i class="ph ph-x"></i> Deselect All</button>
+        </div>
+        <input type="file" id="jsonLoader" accept=".json" style="display: none;" />
+        <input type="file" id="imageLoader" accept="image/*" style="display: none;" />
+        <input type="file" id="pdfLoader" accept="application/pdf" style="display: none;" />
+        <div id="entriesContainer"></div>
+    </div>
+
+    <!-- View Tab -->
+    <div class="tab-content" id="savedTab">
+        <h2>Saved Entries</h2>
+        <div class="saved-toolbar">
+            <input type="text" id="searchInput" placeholder="Search..." oninput="applySearchAndFilters()" />
+            <input type="text" id="tagFilterInput" placeholder="Filter by tag..." oninput="applySearchAndFilters()" />
+            <label class="checkbox-inline">
+                <input type="checkbox" id="showPinnedOnly" onchange="applySearchAndFilters()" />
+                Pinned only
+            </label>
+        </div>
+        <div class="toolbar">
+            <button onclick="downloadJson()" class="secondary-btn"><i class="ph ph-download"></i> JSON</button>
+            <button onclick="downloadCsv()" class="secondary-btn"><i class="ph ph-file-csv"></i> CSV</button>
+            <button onclick="downloadPdf()" class="secondary-btn"><i class="ph ph-file-pdf"></i> PDF</button>
+            <div class="divider"></div>
+            <button onclick="loadFromCsv()" class="secondary-btn"><i class="ph ph-upload"></i> Import CSV</button>
+            <div class="divider"></div>
+            <button onclick="showKeyboardShortcuts()" class="secondary-btn" title="Keyboard Shortcuts"><i
+                    class="ph ph-keyboard"></i> Shortcuts</button>
+            <button onclick="resetAllData()" class="danger-btn"><i class="ph ph-trash"></i> Reset All</button>
+        </div>
+        <div id="savedContainer">
+            <p>No entries saved yet.</p>
+        </div>
+    </div>
+
+    <!-- Analytics Tab -->
+    <div class="tab-content" id="analyticsTab">
+        <h2>📊 Analytics & Progress</h2>
+        <p>Track your learning journey with detailed statistics and visualizations.</p>
+
+        <!-- Quick Stats Cards -->
+        <div class="analytics-quick-stats">
+            <div class="stat-card">
+                <div class="stat-icon">📚</div>
+                <div class="stat-value" id="totalEntriesCount">0</div>
+                <div class="stat-label">Total Entries</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-value" id="totalPracticed">0</div>
+                <div class="stat-label">Times Practiced</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🎯</div>
+                <div class="stat-value" id="avgAccuracy">0%</div>
+                <div class="stat-label">Avg Accuracy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-value" id="currentStreak">0</div>
+                <div class="stat-label">Day Streak</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-value" id="totalStudyTime">0m</div>
+                <div class="stat-label">Study Time</div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="analytics-charts">
+            <!-- Progress Over Time -->
+            <div class="chart-container">
+                <h3>📈 Progress Over Time</h3>
+                <canvas id="progressChart"></canvas>
+            </div>
+
+            <!-- Accuracy by Entry -->
+            <div class="chart-container">
+                <h3>🎯 Accuracy by Entry</h3>
+                <canvas id="accuracyChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Study Heatmap Calendar -->
+        <div class="heatmap-section">
+            <h3>🗓️ Study Heatmap (Last 30 Days)</h3>
+            <div id="studyHeatmap" class="heatmap-grid"></div>
+        </div>
+
+        <!-- Weak Spots -->
+        <div class="weak-spots-section">
+            <h3>⚠️ Entries Needing Attention</h3>
+            <div id="weakSpotsList"></div>
+        </div>
+
+        <!-- Per-Folder Stats -->
+        <div class="folder-stats-section">
+            <h3>📁 Performance by Folder</h3>
+            <div id="folderStatsList"></div>
+        </div>
+    </div>
+
+    <!-- Practice Tab -->
+    <div class="tab-content" id="practiceTab">
+        <h2>Practice</h2>
+        <h4>Answers are checked in order. Any extra word in the middle will cause the word(s) behind considered wrong
+            too.</h4>
+        <div class="practice-toolbar">
+            <label for="practiceModeSelect">Mode:</label>
+            <select id="practiceModeSelect" onchange="updatePracticeMode(this.value)">
+                <option value="full">Full Typing</option>
+                <option value="cloze">Fill-in-the-Blanks</option>
+            </select>
+
+            <div id="clozeSettings" style="display:none; align-items: center; gap: 8px;">
+                <label for="clozeDifficulty" style="margin-bottom:0">Hiding:</label>
+                <input type="range" id="clozeDifficulty" min="10" max="80" value="30" onchange="reloadPractice()"
+                    style="width: 80px; margin-bottom: 0;">
+                <span id="clozeDifficultyVal">30%</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <label for="checkModeSelect">Check:</label>
+            <select id="checkModeSelect" onchange="updateCheckMode(this.value)">
+                <option value="strict">Strict</option>
+                <option value="lenient">Lenient</option>
+            </select>
+            <label class="checkbox-inline">
+                <input type="checkbox" id="firstLetterHintToggle" onchange="toggleFirstLetterHints(this.checked)" />
+                First-letter hints
+            </label>
+
+            <div class="divider"></div>
+
+            <button id="reversePracticeToggle" onclick="toggleReversePractice()" class="secondary-btn"
+                title="Practice content → title instead">
+                🔄 Reverse: OFF
+            </button>
+        </div>
+        <div id="practiceStats" class="stats-bar">
+            <span id="practiceProgressText">0 / 0 practiced</span>
+            <span id="practiceAccuracyText">Accuracy: 0%</span>
+            <span id="practiceStreakText">Streak: 0 days</span>
+        </div>
+        <div id="practiceContainer">
+            <p>No entries saved yet.</p>
+        </div>
+
+        <div id="practiceContent" style="margin-top: 20px;"></div>
+    </div>
+
+    <!-- Review (SRS) Tab -->
+    <div class="tab-content" id="reviewTab">
+        <h2>🧠 Spaced Repetition Review</h2>
+        <p>Review entries based on the scientifically-proven SM-2 algorithm for optimal long-term retention.</p>
+
+        <!-- SRS Statistics Dashboard -->
+        <div class="srs-dashboard">
+            <div class="srs-stat-card">
+                <div class="srs-stat-number" id="srsDueCount">0</div>
+                <div class="srs-stat-label">Due Today</div>
+            </div>
+            <div class="srs-stat-card">
+                <div class="srs-stat-number" id="srsLearningCount">0</div>
+                <div class="srs-stat-label">Learning</div>
+            </div>
+            <div class="srs-stat-card">
+                <div class="srs-stat-number" id="srsYoungCount">0</div>
+                <div class="srs-stat-label">Young</div>
+            </div>
+            <div class="srs-stat-card">
+                <div class="srs-stat-number" id="srsMatureCount">0</div>
+                <div class="srs-stat-label">Mature</div>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <button onclick="loadReviewSession()" class="primary-btn">
+                <i class="ph ph-brain"></i> Start Review Session
+            </button>
+            <button onclick="loadReviewSession('all')" class="secondary-btn">
+                <i class="ph ph-list"></i> Review All
+            </button>
+            <button onclick="resetAllSrsData()" class="danger-btn" title="Reset all SRS progress">
+                <i class="ph ph-arrow-counter-clockwise"></i> Reset SRS
+            </button>
+        </div>
+
+        <div id="reviewContainer">
+            <p>Click "Start Review Session" to begin reviewing due entries.</p>
+        </div>
+
+        <div id="reviewContent" style="margin-top: 20px;"></div>
+    </div>
+
+    <!-- Shuffled Tab -->
+    <div class="tab-content" id="shuffledTab">
+        <h2>Shuffled</h2>
+        <h4>Answers are checked in order. Any extra word in the middle will cause the word(s) behind considered wrong
+            too.</h4>
+        <div id="shuffledStats" class="stats-bar">
+            <span id="shuffledProgressText">0 / 0 practiced</span>
+        </div>
+        <div id="shuffledContainer">
+            <p>No entries saved yet.</p>
+        </div>
+
+        <div id="shuffledContent" style="margin-top: 20px;"></div>
+    </div>
+
+    <!-- Subject Notes Tab -->
+    <div class="tab-content" id="notesTab">
+        <h2>Subject Notes</h2>
+        <p class="description">Write down any general information, formulas, or rules for this subject here. Changes are
+            saved automatically.</p>
+        <div class="notes-container">
+            <div class="notes-toolbar">
+                <div class="notes-tools-left">
+                    <button class="tool-btn" onclick="copyNotes()" title="Copy to Clipboard">
+                        <i class="ph ph-copy"></i> Copy
+                    </button>
+                    <button class="tool-btn" onclick="downloadNotes()" title="Download as .txt">
+                        <i class="ph ph-download-simple"></i> Download
+                    </button>
+                    <button class="tool-btn" onclick="exportNotesToPDF()" title="Export as PDF">
+                        <i class="ph ph-file-pdf"></i> PDF
+                    </button>
+                    <button class="tool-btn" onclick="toggleNotesFullscreen()" title="Fullscreen mode">
+                        <i class="ph ph-arrows-out"></i> Expand
+                    </button>
+                </div>
+                <div class="notes-tools-right">
+                    <div class="formatting-tools">
+                        <button class="tool-btn small" onclick="formatDoc('formatBlock', 'h2')"
+                            title="Heading 1">H1</button>
+                        <button class="tool-btn small" onclick="formatDoc('formatBlock', 'h3')"
+                            title="Heading 2">H2</button>
+                        <button class="tool-btn small" onclick="formatDoc('bold')"
+                            title="Bold (Ctrl+B)"><b>B</b></button>
+                        <button class="tool-btn small" onclick="formatDoc('italic')"
+                            title="Italic (Ctrl+I)"><i>I</i></button>
+                        <button class="tool-btn small" onclick="formatDoc('underline')"
+                            title="Underline (Ctrl+U)"><u>U</u></button>
+                    </div>
+                    <button class="tool-btn primary-btn" onclick="convertNotesToEntries()"
+                        title="Convert paragraphs to Memory Entries">
+                        <i class="ph ph-magic-wand"></i> Convert to Entries
+                    </button>
+                    <button class="tool-btn delete-button" onclick="clearNotes()" title="Clear everything">
+                        <i class="ph ph-eraser"></i> Clear
+                    </button>
+                </div>
+            </div>
+            <div id="subjectNotesArea" contenteditable="true"
+                placeholder="Start typing your notes for this subject here..." oninput="autoSaveNotes()"></div>
+            <div class="notes-footer">
+                <div id="notesCounter" class="notes-counter">0 words | 0 chars</div>
+                <div id="notesStatus" class="notes-status">Draft</div>
+            </div>
+        </div>
+    </div>
+
+    <button id="backToTopBtn" class="floating-btn" title="Go to top">↑</button>
+    <button id="smallAddBtn" class="floating-btn" title="Add">+</button>
+    <button id="smallSaveBtn" class="floating-btn" title="Save">S</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.8.69/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.5/tesseract.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, getDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDNVqbrEu4kac52dEp4MvA1FH0wpqbnjrw",
+            authDomain: "memorise-a3e93.firebaseapp.com",
+            projectId: "memorise-a3e93",
+            storageBucket: "memorise-a3e93.firebasestorage.app",
+            messagingSenderId: "943592337180",
+            appId: "1:943592337180:web:8cec9401c80df8954e54d9",
+            measurementId: "G-9KFZQF04B5"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        window.firebaseApi = {
+            app,
+            auth,
+            db,
+            GoogleAuthProvider,
+            signInWithPopup,
+            signOut,
+            onAuthStateChanged,
+            collection,
+            doc,
+            setDoc,
+            getDoc,
+            getDocs,
+            deleteDoc
+        };
+    </script>
+    <script src="srs.js"></script>
+    <script src="analytics.js"></script>
+    <script src="smart-features.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
