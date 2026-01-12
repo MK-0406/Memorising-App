@@ -715,10 +715,23 @@ function switchTab(index) {
         tabs[index].classList.add('active');
     }
 
+<<<<<<< HEAD
     // Activate Mobile Tab (6-13) - assuming sequential order in DOM
     // There are 6 tabs per set. Mobile set starts at index 7.
     if (tabs[index + 6]) {
         tabs[index + 6].classList.add('active');
+=======
+    // Activate Mobile Tab (7-13) - assuming sequential order in DOM
+    // There are 7 tabs per set. Mobile set starts at index 7.
+    if (tabs[index + 7]) {
+        tabs[index + 7].classList.add('active');
+    }
+
+    // Special handling for specific tabs
+    // Analytics
+    if (index === 2 && typeof initAnalytics === 'function') {
+        initAnalytics();
+>>>>>>> 6f8ceca10a2f6a6354bc1580ec3c7343d3907e87
     }
 
     // Review (SRS)
@@ -727,7 +740,11 @@ function switchTab(index) {
     }
 
     // Notes
+<<<<<<< HEAD
     if (index === 5) {
+=======
+    if (index === 6) {
+>>>>>>> 6f8ceca10a2f6a6354bc1580ec3c7343d3907e87
         loadNotesUI();
     }
 
@@ -2789,4 +2806,8 @@ document.addEventListener("DOMContentLoaded", () => {
             localStorage.setItem("fmapp_seen_welcome", "true");
         }, 1000);
     }
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 6f8ceca10a2f6a6354bc1580ec3c7343d3907e87
