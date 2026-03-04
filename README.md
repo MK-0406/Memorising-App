@@ -2,7 +2,7 @@
 
 **Version 4.0** | **40% Complete** | **50+ Features**
 
-A powerful, scientifically-backed study application with spaced repetition, analytics, and AI-powered features.
+A powerful, scientifically-backed study application with spaced repetition and AI-powered features.
 
 ---
 
@@ -11,7 +11,6 @@ A powerful, scientifically-backed study application with spaced repetition, anal
 FM APP is a comprehensive memory and study tool that helps you:
 - 📝 Create and organize study materials
 - 🧠 Practice with scientifically-proven spaced repetition
-- 📊 Track your progress with detailed analytics
 - 💡 Get AI-powered suggestions and insights
 - 🎯 Identify and focus on weak areas
 
@@ -24,13 +23,6 @@ FM APP is a comprehensive memory and study tool that helps you:
 - Intelligent scheduling based on performance
 - 4 difficulty ratings (Again/Hard/Good/Easy)
 - Automatic interval calculation
-
-### 📊 **Analytics Dashboard**
-- Progress charts with Chart.js
-- 30-day study heatmap
-- Weak spots identification
-- Per-folder statistics
-- Study time tracking
 
 ### 💡 **Smart Features**
 - Auto-tagging with NLP
@@ -56,8 +48,6 @@ FM APP/
 ├── style.css               # Core styles
 ├── script.js               # Main application logic
 ├── srs.js                  # Spaced repetition algorithm
-├── analytics.js            # Analytics & charts
-├── analytics.css           # Analytics styling
 ├── smart-features.js       # AI-powered features
 ├── smart-features.css      # Smart features styling
 └── README.md               # User guide (this file)
@@ -79,7 +69,6 @@ FM APP/
 2. **Add entries** using the Input tab
 3. **Practice** to build your streak
 4. **Review** with SRS for optimal retention
-5. **Track progress** in Analytics
 
 ---
 
@@ -105,13 +94,6 @@ FM APP/
 3. Practice due entries
 4. Rate difficulty (Again/Hard/Good/Easy)
 5. Build long-term retention
-
-### Analytics
-1. Go to **📊 Analytics** tab
-2. View quick stats
-3. Check progress charts
-4. Identify weak spots
-5. Review folder performance
 
 ---
 
@@ -155,68 +137,6 @@ FM APP/
 
 ---
 
-## 📊 **Phases Completed**
-
-### ✅ Phase 1: Foundation (100%)
-- Keyboard shortcuts
-- Entry counter badges
-- Reverse practice mode
-- CSV import/export
-- UI enhancements
-
-### ✅ Phase 2: SRS (100%)
-- SM-2 algorithm
-- Review sessions
-- Difficulty ratings
-- Due date tracking
-- Maturity badges
-
-### ✅ Phase 3: Analytics (100%)
-- Quick stats dashboard
-- Progress charts
-- Study heatmap
-- Weak spots
-- Folder statistics
-
-### ✅ Phase 4: Smart Features (100%)
-- Auto-tagging (NLP)
-- Duplicate detection
-- Entry templates
-- Bulk operations
-- Smart hints
-
-### 🔄 Phase 5: Collaboration (0%)
-- Share folders
-- Public library
-- Collaborative editing
-
-### 🔄 Phase 6: Import/Export (0%)
-- Anki compatibility
-- Quizlet import
-- Google Sheets sync
-
-### 🔄 Phase 7: Gamification (0%)
-- Badges & achievements
-- XP system
-- Leaderboards
-
-### 🔄 Phase 8: Mobile & PWA (0%)
-- Offline mode
-- Push notifications
-- Install as app
-
-### 🔄 Phase 9: Advanced Tools (0%)
-- Pomodoro timer
-- Focus mode
-- Custom themes
-
-### 🔄 Phase 10: Polish (0%)
-- Performance optimization
-- Testing & QA
-- Bug fixes
-
----
-
 ## 🛠️ **Technologies Used**
 
 ### Frontend
@@ -225,7 +145,6 @@ FM APP/
 - **JavaScript (ES6+)** - Logic
 
 ### Libraries
-- **Chart.js** - Data visualization
 - **Tesseract.js** - OCR for images
 - **PDF.js** - PDF text extraction
 - **jsPDF** - PDF generation
@@ -276,15 +195,11 @@ FM APP/
 
 ## 🧪 **Testing**
 
-### Manual Testing
-See `TESTING-GUIDE.md` for complete checklist
-
 ### Quick Test
 1. Open `index.html`
 2. Add an entry
 3. Save and practice
-4. Check analytics
-5. Try SRS review
+4. Try SRS review
 
 ### Browser Console
 Press F12 to check for errors
@@ -333,7 +248,6 @@ Press F12 to check for errors
 - **Features**: 50+
 - **Keyboard Shortcuts**: 15+
 - **Supported Formats**: JSON, CSV, PDF, Images
-- **Chart Types**: 2 (Line, Bar)
 - **Practice Modes**: 4
 - **Templates**: 5
 
@@ -369,7 +283,6 @@ This project is for personal/educational use.
 - **Levenshtein Distance**: Vladimir Levenshtein
 
 ### Libraries
-- Chart.js
 - Firebase
 - Tesseract.js
 - PDF.js

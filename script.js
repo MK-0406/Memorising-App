@@ -226,11 +226,6 @@ async function switchFolder(folderId) {
     updatePracticeStatsDisplay();
     updateShuffledStatsDisplay();
 
-    // Analytics Tab
-    if (typeof initAnalytics === 'function') {
-        initAnalytics();
-    }
-
     // SRS Tab
     if (typeof updateSrsStatsDisplay === 'function') {
         updateSrsStatsDisplay();
