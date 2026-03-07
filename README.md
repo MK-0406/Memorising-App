@@ -1,8 +1,8 @@
 # 📚 FM APP - Advanced Memory & Study Application
 
-**Version 4.0** | **40% Complete** | **50+ Features**
-
 A powerful, scientifically-backed study application with spaced repetition and AI-powered features.
+
+![main-interface](images/memorising-app.png)
 
 ---
 
