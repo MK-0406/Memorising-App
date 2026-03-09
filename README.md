@@ -2,6 +2,8 @@
 
 A powerful, scientifically-backed study application with spaced repetition and AI-powered features.
 
+Demo link: https://mk-0406.github.io/Memorising-App/
+
 ![main-interface](images/memorising-app.png)
 
 ---
